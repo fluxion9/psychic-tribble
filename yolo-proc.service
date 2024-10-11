@@ -8,7 +8,7 @@ WorkingDirectory=/root/psychic-tribble/
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
-User=ocean
+User=root
 Environment="PATH=/root/psychic-tribble/venv/bin"
 
 [Install]
