@@ -6,6 +6,11 @@ from detector import detect
 
 app = Flask(__name__)
 
+with open("blind.jpg", "rb") as f:
+    blind_buffer = f.read()
+
+image_buffer = None
+
 @app.route('/')
 def index():
     return make_response('Hello there!', 200)
@@ -22,7 +27,8 @@ def send_file():
         nparr = np.frombuffer(image_data, np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
         if img is not None:
-            summary, lvalue = detect(img)
+            global image_buffer
+            summary, lvalue, image_buffer = detect(img)
             person = 'person' in summary
             dark = lvalue <= 13.0
             response = {'person': person, 'dark': dark}
@@ -38,20 +44,19 @@ def stream():
 def get_frame():
     while True:
         try:
-            with open("image.jpg", "rb") as f:
-                image_bytes = f.read()
-            nparr = np.frombuffer(image_bytes, np.uint8)
-            img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-            if img is None:
+            if image_buffer is None:
+                raise Exception
+            success, enc = cv2.imencode('.jpg', image_buffer)
+            if success:
+                image_bytes = enc.tobytes()
+            else:
+                print("Failed to encode image")
                 raise Exception
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + image_bytes + b'\r\n')
         except Exception as e:
-            # print(f"Exception: {e}")
-            with open("blind.jpg", "rb") as f:
-                image_bytes = f.read()
             yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + image_bytes + b'\r\n')
+                   b'Content-Type: image/jpeg\r\n\r\n' + blind_buffer + b'\r\n')
             continue
 
 if __name__ == "__main__":

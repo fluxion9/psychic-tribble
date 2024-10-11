@@ -96,8 +96,8 @@ def detect(image):
     # print(accuracy)
     cv2.putText(image, f'L value: {lvalueld:.2f}', (10, 450), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2, cv2.LINE_AA)
     summary = Summary(objects)
-    cv2.imwrite("image.jpg", image)
-    return summary, lvalueld
+    # cv2.imwrite("image.jpg", image)
+    return summary, lvalueld, image
 
 
 
