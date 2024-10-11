@@ -4,7 +4,8 @@ import time
 
 
 def upload_image(image_data):
-    url = 'http://134.122.88.128:5000/send'
+    # url = 'http://localhost:5000/send'
+    url = 'https://yolo-processor-9owml.ondigitalocean.app/send'
     response = requests.post(url, files={'file': ('image.jpg', image_data, 'image/jpeg')})
     print(response.text)
 

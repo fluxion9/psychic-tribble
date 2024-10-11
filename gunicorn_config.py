@@ -1,5 +1,5 @@
-bind = "0.0.0.0:8080"
-workers = 1
+bind = "0.0.0.0:5000"
+workers = 2
 
 loglevel = "info"
 accesslog = "-"  # Log access requests to stdout
