@@ -2,4 +2,4 @@ Flask
 numpy
 opencv_python_headless
 gunicorn
-Requests
+requests
