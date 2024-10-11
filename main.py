@@ -10,6 +10,11 @@ from detector import detect
 # Flask app initialization
 app = Flask(__name__)
 
+with open("blind.jpg", "rb") as f:
+    blind_buffer = f.read()
+
+image_buffer = None
+
 # WebSocket handler to receive image data and process with OpenCV
 async def handle_connection(websocket, path):
     while True:
@@ -22,7 +27,8 @@ async def handle_connection(websocket, path):
                 img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
                 if img is not None:
-                    summary, lvalue = detect(img)
+                    global image_buffer
+                    summary, lvalue, image_buffer = detect(img)
                     person = summary.__contains__('person')
                     dark = lvalue <= 13.0
                     response = {'person': person, 'dark': dark}
@@ -49,20 +55,18 @@ def stream():
 def get_image():
     while True:
         try:
-            with open("temp/image.jpg", "rb") as f:
-                image_bytes = f.read()
-            nparr = np.frombuffer(image_bytes, np.uint8)
-            img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-            if img is None:
+            if image_buffer is None:
+                raise Exception
+            success, enc = cv2.imencode('.jpg', image_buffer)
+            if success:
+                image_bytes = enc.tobytes()
+            else:
                 raise Exception
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + image_bytes + b'\r\n')
         except Exception as e:
-            # print(f"Exception: {e}")
-            with open("blind.jpg", "rb") as f:
-                image_bytes = f.read()
             yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + image_bytes + b'\r\n')
+                   b'Content-Type: image/jpeg\r\n\r\n' + blind_buffer + b'\r\n')
             continue
 # Function to start the Flask app
 def start_flask_app():

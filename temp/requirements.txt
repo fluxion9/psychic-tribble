@@ -1,5 +1,0 @@
-Flask
-numpy
-opencv_python_headless
-python-socketio
-websockets

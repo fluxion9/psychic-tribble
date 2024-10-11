@@ -3,3 +3,5 @@ numpy
 opencv_python_headless
 gunicorn
 requests
+python-socketio
+websockets

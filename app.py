@@ -50,7 +50,6 @@ def get_frame():
             if success:
                 image_bytes = enc.tobytes()
             else:
-                print("Failed to encode image")
                 raise Exception
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + image_bytes + b'\r\n')

@@ -3,8 +3,8 @@ import websockets
 import asyncio
 
 # Set the IP address and port of the WebSocket server
-server_ip = "ws://localhost:3001"
-# server_ip = "wss://yolo.onegridenergies.com:3001"
+# server_ip = "ws://localhost:3001"
+server_ip = "ws://134.122.88.128:3001"
 
 async def send_frame(websocket, frame):
     # Encode the frame as JPEG
