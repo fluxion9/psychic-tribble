@@ -1,0 +1,15 @@
+[Unit]
+Description=YOLO-Processor
+After=network.target
+
+[Service]
+ExecStart=/python3 /home/psychic-tribble/main.py
+WorkingDirectory=/home/psychic-tribble/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=ocean
+Environment="PATH=/home/psychic-tribble/venv/bin"
+
+[Install]
+WantedBy=multi-user.target
