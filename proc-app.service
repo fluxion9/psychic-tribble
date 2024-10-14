@@ -1,0 +1,15 @@
+[Unit]
+Description=YOLO-Processor-Flask
+After=network.target
+
+[Service]
+ExecStart=python3 /root/psychic-tribble/app.py
+WorkingDirectory=/root/psychic-tribble/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+Environment="PATH=/root/psychic-tribble/venv/bin"
+
+[Install]
+WantedBy=multi-user.target

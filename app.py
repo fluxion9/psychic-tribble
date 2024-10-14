@@ -1,8 +1,29 @@
 from flask import Flask, request, make_response, Response
 import cv2
 import numpy as np
+import sys
+import logging
 
 from detector import detect
+
+class LoggerWriter:
+    def __init__(self, level):
+        self.level = level
+
+    def write(self, message):
+        if message != '\n':
+            self.level(message)
+
+    def flush(self):
+        pass
+
+# Configure the logging
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+logger = logging.getLogger()
+
+sys.stdout = LoggerWriter(logger.info)
+sys.stderr = LoggerWriter(logger.error)
 
 app = Flask(__name__)
 
@@ -31,7 +52,8 @@ def send_file():
             summary, lvalue, image_buffer = detect(img)
             person = 'person' in summary
             dark = lvalue <= 13.0
-            response = {'person': person, 'dark': dark}
+            # response = {'person': person, 'dark': dark}
+            response = [int(person), int(dark), round(lvalue, 1)]
             return make_response(str(response), 200)
         else:
             return make_response('', 400)

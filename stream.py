@@ -20,7 +20,7 @@ async def stream_video():
     async with websockets.connect(server_ip) as websocket:
         # Open the webcam (use 0 for the default webcam)
         cap = cv2.VideoCapture(0)
-        print("Streaming.....")
+        print("Streaming...")
         try:
             while True:
                 # Capture frame-by-frame
