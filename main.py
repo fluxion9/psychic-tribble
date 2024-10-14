@@ -92,7 +92,7 @@ def get_image():
             continue
 # Function to start the Flask app
 def start_flask_app():
-    app.run(host='0.0.0.0', port=80, debug=False, threaded=True)
+    app.run(host='0.0.0.0', port=4045, debug=False, threaded=True)
 
 # Start both WebSocket and Flask servers concurrently
 def run_servers():
