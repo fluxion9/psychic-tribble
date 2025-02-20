@@ -19,13 +19,13 @@
 const char* ssid = "YOLO32-CAM";
 const char* pswd = "YOLOV4-2024";
 
-const char* def_ssid = "CEO";
-const char* def_pswd = "AA0E5BBD";
+// const char* def_ssid = "CEO";
+// const char* def_pswd = "AA0E5BBD";
 
 // const char* def_ssid = "MC";
 // const char* def_pswd = "12345679";
 
-char sta_ssid[32] = "MC";
+char sta_ssid[32] = "MMERICHUKWU";
 char sta_pswd[32] = "12345679";
 
 const char* ws_server = "http://134.122.88.128:3001";
